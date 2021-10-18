@@ -60,12 +60,48 @@ module.exports = class BinarySearchTree {
     return null;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    if (this.has(data)) {
+      this.rootNode = this.removeNode(this.rootNode, data);
+    }
+   }
+
+  removeNode(node, data) {
+    if (!node) {
+      return null;
+    }
+
+    if (node.data < data) {
+      node.right = this.removeNode(node.right, data);
+      return node;
+    } 
+    else if (node.data > data) {
+      node.left = this.removeNode(node.left, data);
+      return node;
+    } 
+    else if (node.data === data){
+      if (!node.left && !node.right) {
+        return null
+      } 
+      else if (!node.left) {
+        node = node.right;
+        return node;
+      } 
+      else if (!node.right) {
+        node = node.left;
+        return node;
+      } 
+      else {
+
+      let minFromRightBranch = this.findMinNode(node.right);
+
+      node.data = minFromRightBranch.data;
+      node.right = this.removeNode(node.right, minFromRightBranch.data);
+      return node;
+      }
+    }
   }
-
-
+  
   min() {
     if(!this.rootNode) return null;
     return this.findMinNode(this.rootNode).data;
@@ -76,12 +112,10 @@ module.exports = class BinarySearchTree {
     return this.findMaxNode(this.rootNode).data;
   }
 
-
-
-
-  // help
-
   findMinNode(startNode) {
+    if(!startNode){
+      return null;
+    }
     if(startNode.left === null)
       return startNode;
     else
@@ -89,6 +123,9 @@ module.exports = class BinarySearchTree {
   }
 
   findMaxNode(startNode) {
+    if(!startNode){
+      return null;
+    }
     if(startNode.right === null)
       return startNode;
     else
