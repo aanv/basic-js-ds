@@ -44,29 +44,55 @@ module.exports = class BinarySearchTree {
     }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    //  returns true if node with the data exists in the tree and false otherwise
+  has(data) {
+    return this.find(data) !== null;
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // returns node with the data if node with the data exists in the tree and null otherwise
+  find(data) {
+    let node = this.rootNode;
+
+    while (node) {
+      if (node.data === data) return node; 
+      else if (node.data > data) node = node.left;
+      else if (node.data < data) node = node.right;
+    }
+
+    return null;
   }
 
   remove(/* data */) {
     throw new NotImplementedError('Not implemented');
-    // removes node with the data from the tree if node with the data exists
+    // remove line with error and write your code here
   }
 
+
   min() {
-    throw new NotImplementedError('Not implemented');
-    // returns minimal value stored in the tree (or null if tree has no nodes)
+    if(!this.rootNode) return null;
+    return this.findMinNode(this.rootNode).data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // returns maximal value stored in the tree (or null if tree has no nodes)
+    if(!this.rootNode) return null;
+    return this.findMaxNode(this.rootNode).data;
+  }
+
+
+
+
+  // help
+
+  findMinNode(startNode) {
+    if(startNode.left === null)
+      return startNode;
+    else
+      return this.findMinNode(startNode.left);
+  }
+
+  findMaxNode(startNode) {
+    if(startNode.right === null)
+      return startNode;
+    else
+      return this.findMaxNode(startNode.right);
   }
 
 }
